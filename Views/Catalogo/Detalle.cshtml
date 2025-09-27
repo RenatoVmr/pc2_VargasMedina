@@ -1,0 +1,16 @@
+@model pc2_VargasRenatoSebastian.Models.Inmueble
+@{
+    ViewData["Title"] = "Detalle Inmueble";
+}
+<div class="card mb-4">
+    <img src="~/images/@Model.Imagen" class="card-img-top" alt="@Model.Titulo" />
+    <div class="card-body">
+        <h3>@Model.Titulo</h3>
+        <p>@Model.Ciudad - @Model.Tipo</p>
+        <p>@Model.Direccion</p>
+        <p>@Model.Dormitorios Dorm. | @Model.Banos Baños | @Model.MetrosCuadrados m²</p>
+        <p>S/. @Model.Precio</p>
+        <a asp-controller="Visitas" asp-action="Agendar" asp-route-id="@Model.Id" class="btn btn-success">Agendar visita</a>
+    </div>
+</div>
+<a asp-action="Index" class="btn btn-secondary">Volver al catálogo</a>

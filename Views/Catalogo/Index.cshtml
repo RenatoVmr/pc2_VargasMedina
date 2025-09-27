@@ -1,0 +1,69 @@
+@model IEnumerable<pc2_VargasRenatoSebastian.Models.Inmueble>
+@{
+    ViewData["Title"] = "Catálogo";
+}
+<h2>Catálogo de Inmuebles</h2>
+<form method="get" asp-action="Index">
+    <div class="row mb-3">
+        <div class="col">
+            <select name="ciudad" class="form-control">
+                <option value="">Ciudad</option>
+                @foreach (var c in (List<string>)ViewBag.Ciudades)
+                {
+                    var selected = (ViewBag.Ciudad == c) ? "selected" : "";
+                    <option value="@c" selected="@selected">@c</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <select name="tipo" class="form-control">
+                <option value="">Tipo</option>
+                @foreach (var t in (Array)ViewBag.Tipos)
+                {
+                    var selected = (ViewBag.Tipo == t) ? "selected" : "";
+                    <option value="@((int)t)" selected="@selected">@t</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <input type="number" name="precioMin" class="form-control" placeholder="Precio Min" value="@ViewBag.PrecioMin" min="0" />
+        </div>
+        <div class="col">
+            <input type="number" name="precioMax" class="form-control" placeholder="Precio Max" value="@ViewBag.PrecioMax" min="0" />
+        </div>
+        <div class="col">
+            <input type="number" name="dormitorios" class="form-control" placeholder="Dormitorios >=" value="@ViewBag.Dormitorios" min="0" />
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+    </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+</form>
+<div class="row">
+    @foreach (var inmueble in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="~/images/@inmueble.Imagen" class="card-img-top" alt="@inmueble.Titulo" />
+                <div class="card-body">
+                    <h5 class="card-title">@inmueble.Titulo</h5>
+                    <p class="card-text">@inmueble.Ciudad - @inmueble.Tipo</p>
+                    <p class="card-text">@inmueble.Dormitorios Dorm. | @inmueble.Banos Baños | @inmueble.MetrosCuadrados m²</p>
+                    <p class="card-text">S/. @inmueble.Precio</p>
+                    <a asp-action="Detalle" asp-route-id="@inmueble.Id" class="btn btn-info">Ver detalle</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(ViewBag.Page == i ? "active" : "")">
+                <a class="page-link" href="?page=@i&ciudad=@ViewBag.Ciudad&tipo=@ViewBag.Tipo&precioMin=@ViewBag.PrecioMin&precioMax=@ViewBag.PrecioMax&dormitorios=@ViewBag.Dormitorios">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
